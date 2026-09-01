@@ -76,6 +76,12 @@ export default async function Page() {
         </div>
         <div className="flex items-center gap-3">
           <Link
+            href="/dashboard/ai"
+            className="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+          >
+            AI tools
+          </Link>
+          <Link
             href="/invoice-generator"
             className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
           >
