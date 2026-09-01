@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #f8fafc;
+  color: #0f172a;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The A4 sheet the preview and the PDF both target. */
+.sheet {
+  width: 794px;
+  min-height: 1123px;
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  margin-bottom: 0.25rem;
+}
+
+.field-input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.875rem;
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.field-input:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: -1px;
+  border-color: #2563eb;
+}
+
+.field-input::placeholder {
+  color: #94a3b8;
+}
+
+.prose-seo h2 {
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: #0f172a;
+}
+
+.prose-seo h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #0f172a;
+}
+
+.prose-seo p,
+.prose-seo li {
+  color: #334155;
+  line-height: 1.75;
+}
+
+.prose-seo p {
+  margin-bottom: 0.9rem;
+}
+
+.prose-seo ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.prose-seo ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.prose-seo a {
+  color: #2563eb;
+  text-decoration: underline;
+}
