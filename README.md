@@ -158,6 +158,15 @@ reminders, the public `/i/<token>` share page, the REST API for B2B, and the adm
 tables those features will use (`subscriptions`, `payments`, `api_keys`, `usage`,
 `ai_requests`, `email_logs`), so adding them does not require a migration of existing data.
 
+## A spelling note, deliberately left alone
+
+The product is called **InvoiceFlowGenerator** in the UI, but the domain is
+**invoiceflowgen*a*rator.com**. The two spellings differ on purpose — the domain was registered
+that way, and the owner chose to keep both as they are for now rather than rename either.
+
+Do not "fix" one to match the other without asking. Changing the UI spelling rewrites every page
+title and meta description; changing the domain breaks whatever Google has already indexed.
+
 ## Deploying
 
 Vercel is the path of least resistance for a Next.js App Router app: the PDF route needs the
@@ -172,7 +181,7 @@ Node runtime and everything else is static or server-rendered, which its default
 
 | Variable | Value |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | `https://yourdomain.com` — no trailing slash |
+| `NEXT_PUBLIC_SITE_URL` | `https://invoiceflowgenarator.com` — no trailing slash |
 | `NEXT_PUBLIC_SUPABASE_URL` | From Supabase → Project Settings → API |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | The publishable key |
 | `SUPABASE_SECRET_KEY` | The secret key. Production scope only. |
@@ -187,15 +196,15 @@ Node runtime and everything else is static or server-rendered, which its default
 
 These are easy to forget and each one breaks something quietly:
 
-- **Supabase → Authentication → URL Configuration**: set Site URL to your domain and add
-  `https://yourdomain.com/auth/callback` to the redirect list, or sign-in links will point at
+- **Supabase → Authentication → URL Configuration**: set Site URL to `https://invoiceflowgenarator.com` and add
+  `https://invoiceflowgenarator.com/auth/callback` to the redirect list, or sign-in links will point at
   localhost.
-- **Stripe → Webhooks**: add `https://yourdomain.com/api/stripe/webhook` in *live* mode and copy
+- **Stripe → Webhooks**: add `https://invoiceflowgenarator.com/api/stripe/webhook` in *live* mode and copy
   its signing secret. A test-mode secret will reject live events.
 - **Supabase → Authentication → Emails → SMTP**: the built-in mail service is capped at a few
   messages per hour and is not usable for real signups. Point it at Resend, Postmark or similar.
-- **Search Console**: submit `https://yourdomain.com/sitemap.xml`.
-- Check `https://yourdomain.com/robots.txt` resolves and that `NEXT_PUBLIC_SITE_URL` made it into
+- **Search Console**: submit `https://invoiceflowgenarator.com/sitemap.xml`.
+- Check `https://invoiceflowgenarator.com/robots.txt` resolves and that `NEXT_PUBLIC_SITE_URL` made it into
   the canonical tags — a wrong value here silently ruins the SEO work.
 
 ### Test mode first
