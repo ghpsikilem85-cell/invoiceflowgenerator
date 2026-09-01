@@ -1,4 +1,4 @@
-# InvoiceFlow
+# InvoiceFlowGenerator
 
 A free invoice generator: fill in a form, watch an A4 document build itself in a live preview,
 and download a real PDF. Built with Next.js 15 (App Router), TypeScript, Tailwind v4,

@@ -26,6 +26,8 @@ export default function InvoiceEditor({
   currency,
   canSave = false,
 }: Props) {
+  // Deliberately not renamed alongside the brand: the key identifies drafts
+  // already sitting in visitors' browsers, and changing it would discard them.
   const storageKey = `invoiceflow:draft:${kind}`;
   const config = getKind(kind);
 

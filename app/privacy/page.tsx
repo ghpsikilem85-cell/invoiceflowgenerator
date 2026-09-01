@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Privacy Policy",
-  description: "This policy explains what InvoiceFlow collects, why, and what it does not collect.",
+  description: "This policy explains what InvoiceFlowGenerator collects, why, and what it does not collect.",
   path: "/privacy",
 });
 
@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Privacy Policy</h1>
-      <p className="mt-3 text-slate-600">This policy explains what InvoiceFlow collects, why, and what it does not collect.</p>
+      <p className="mt-3 text-slate-600">This policy explains what InvoiceFlowGenerator collects, why, and what it does not collect.</p>
       <div className="prose-seo mt-6">
           <h2>What the generator stores</h2>
           <p>The invoice you are working on is kept in your own browser using local storage. It is not sent anywhere until you press Download PDF or Save invoice, and it stays on the device you typed it on.</p>

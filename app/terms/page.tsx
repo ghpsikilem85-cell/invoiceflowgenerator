@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Terms of Service",
-  description: "Plain-language terms for using InvoiceFlow.",
+  description: "Plain-language terms for using InvoiceFlowGenerator.",
   path: "/terms",
 });
 
@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Terms of Service</h1>
-      <p className="mt-3 text-slate-600">Plain-language terms for using InvoiceFlow.</p>
+      <p className="mt-3 text-slate-600">Plain-language terms for using InvoiceFlowGenerator.</p>
       <div className="prose-seo mt-6">
           <h2>Using the service</h2>
           <p>You may use the free generator for personal or commercial invoicing without an account. You are responsible for the accuracy of everything you put on a document you create here.</p>

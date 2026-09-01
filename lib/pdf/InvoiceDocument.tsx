@@ -103,7 +103,7 @@ export function InvoiceDocument({ invoice }: { invoice: Invoice }) {
   return (
     <Document
       title={`${kind.title} ${invoice.invoice_number}`}
-      author={invoice.business_name || "InvoiceFlow"}
+      author={invoice.business_name || "InvoiceFlowGenerator"}
     >
       <Page size="A4" style={[styles.page, { fontFamily: font }]}>
         {template.layout === "banner" ? (

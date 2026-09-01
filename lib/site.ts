@@ -1,6 +1,6 @@
 export const SITE = {
-  name: "InvoiceFlow",
-  shortName: "InvoiceFlow",
+  name: "InvoiceFlowGenerator",
+  shortName: "InvoiceFlowGenerator",
   tagline: "Free Invoice Generator",
   description:
     "Create professional invoices online for free. Download PDF invoices instantly with no registration required.",

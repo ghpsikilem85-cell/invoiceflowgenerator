@@ -13,8 +13,11 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-3">
-        <Link href="/" className="text-lg font-bold tracking-tight text-slate-900">
-          Invoice<span className="text-blue-600">Flow</span>
+        <Link
+          href="/"
+          className="shrink-0 text-base font-bold tracking-tight text-slate-900 sm:text-lg"
+        >
+          Invoice<span className="text-blue-600">Flow</span>Generator
         </Link>
 
         <ul className="hidden flex-1 items-center gap-5 text-sm text-slate-600 md:flex">

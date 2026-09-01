@@ -48,7 +48,7 @@ export default function Footer() {
 
       <div className="border-t border-slate-200">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} InvoiceFlow. Free invoice generator.</p>
+          <p>© {new Date().getFullYear()} InvoiceFlowGenerator. Free invoice generator.</p>
           <div className="flex gap-4">
             <Link href="/blog" className="hover:text-slate-800">
               Blog

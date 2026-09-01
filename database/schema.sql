@@ -1,4 +1,4 @@
--- InvoiceFlow — Supabase / PostgreSQL schema
+-- InvoiceFlowGenerator — Supabase / PostgreSQL schema
 --
 -- Run this in the Supabase SQL editor. It creates the MVP tables, enables row
 -- level security on every one of them, and adds policies so a signed-in user
