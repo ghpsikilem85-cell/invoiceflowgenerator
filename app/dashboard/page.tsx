@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import SignOutButton from "@/components/SignOutButton";
+import PlanBadge from "@/components/PlanBadge";
 import { formatDate, formatMoney } from "@/lib/currency";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
@@ -54,6 +55,12 @@ export default async function Page() {
 
   if (!user) redirect("/login");
 
+  const { data: profile } = await supabase!
+    .from("profiles")
+    .select("plan")
+    .eq("id", user.id)
+    .maybeSingle();
+
   const { data, error } = await supabase!
     .from("invoices")
     .select(
@@ -74,6 +81,7 @@ export default async function Page() {
           <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
           <p className="text-sm text-slate-500">{user.email}</p>
         </div>
+        <PlanBadge plan={(profile?.plan as string) ?? "free"} />
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/ai"

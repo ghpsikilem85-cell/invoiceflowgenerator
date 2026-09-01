@@ -26,11 +26,48 @@ download PDFs; the generator, all landing pages and the blog work with no backen
 | `NEXT_PUBLIC_GSC_VERIFICATION` | Search Console verification meta tag |
 | `ANTHROPIC_API_KEY` | The AI tools at `/dashboard/ai` |
 | `AI_REQUIRE_PRO` | Set `true` to gate the AI tools behind a paid plan (default `false`) |
+| `STRIPE_SECRET_KEY` | Subscriptions |
+| `STRIPE_WEBHOOK_SECRET` | Verifying webhook payloads |
+| `STRIPE_PRICE_{PRO,BUSINESS}_{MONTH,YEAR}` | The four Stripe price IDs |
+| `SUPABASE_SECRET_KEY` | Server only — the webhook writes with it. Never expose it. |
 
 When `ANTHROPIC_API_KEY` is absent, `/dashboard/ai` renders an explanatory notice and
 `/api/ai` returns 501. When the Supabase variables are absent, `/login` and `/dashboard` render an explanatory notice,
 the editor shows "Sign in to save" instead of a Save button, and `/api/invoices` returns 501.
 Every other route behaves normally.
+
+When Stripe is unset, `/pricing` renders the plans with a disabled "Coming soon" button and
+every `/api/stripe/*` route returns 501.
+
+## Stripe setup
+
+1. In the Stripe dashboard, create two **recurring** products — Pro and Business — each with a
+   monthly and a yearly price. Four price IDs in total (`price_...`).
+2. Put them in `STRIPE_PRICE_PRO_MONTH`, `STRIPE_PRICE_PRO_YEAR`, `STRIPE_PRICE_BUSINESS_MONTH`
+   and `STRIPE_PRICE_BUSINESS_YEAR`. A plan with no price ID shows as "Coming soon" rather than
+   breaking.
+3. Run `database/migrations/001_stripe.sql` in the Supabase SQL editor.
+4. Copy a Supabase **secret** key into `SUPABASE_SECRET_KEY`. The webhook arrives with no user
+   session, so it needs to bypass RLS to write the subscription row.
+5. Add a webhook endpoint at `<your-site>/api/stripe/webhook` subscribed to
+   `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated`
+   and `customer.subscription.deleted`. Copy its signing secret into `STRIPE_WEBHOOK_SECRET`.
+6. Enable the customer portal under Stripe → Settings → Billing → Customer portal, or the
+   Manage billing button will fail.
+
+Locally, forward events with the Stripe CLI instead of step 5:
+
+```bash
+stripe listen --forward-to localhost:3000/api/stripe/webhook
+```
+
+### How entitlement works
+
+`profiles.plan` is the single field the rest of the app reads. Only the webhook writes it, using
+the service-role key, and only from a payload whose Stripe signature verified. A subscription in
+any status other than `active` or `trialing` sets the plan back to `free`, so a failed renewal
+downgrades on its own. The browser never writes the plan — users change it through Stripe's
+portal.
 
 ## Supabase setup
 
@@ -53,6 +90,7 @@ app/
   api/pdf/                        POST invoice JSON, get a PDF back
   api/invoices/                   save and list (requires auth)
   api/ai/                         the five AI tools (requires auth)
+  api/stripe/                     checkout, billing portal, webhook
   dashboard/ai/                   AI tools UI
 components/
   InvoiceEditor.tsx               the client-side editor
@@ -114,8 +152,8 @@ outside that range (Turkish dotless i, Polish crossed l, CJK) is transliterated 
 
 ## What is not built yet
 
-This is the MVP plus the AI tools. Deliberately out of scope for now: Stripe subscriptions and
-payment links, actually sending the emails the AI drafts, recurring invoices and automatic
+This is the MVP, the AI tools and subscription billing. Deliberately out of scope for now:
+per-invoice payment links, actually sending the emails the AI drafts, recurring invoices and automatic
 reminders, the public `/i/<token>` share page, the REST API for B2B, and the admin panel. The database schema already contains the
 tables those features will use (`subscriptions`, `payments`, `api_keys`, `usage`,
 `ai_requests`, `email_logs`), so adding them does not require a migration of existing data.
