@@ -158,6 +158,53 @@ reminders, the public `/i/<token>` share page, the REST API for B2B, and the adm
 tables those features will use (`subscriptions`, `payments`, `api_keys`, `usage`,
 `ai_requests`, `email_logs`), so adding them does not require a migration of existing data.
 
+## Deploying
+
+Vercel is the path of least resistance for a Next.js App Router app: the PDF route needs the
+Node runtime and everything else is static or server-rendered, which its defaults already handle.
+
+1. Push this repository to GitHub, then import it at vercel.com/new.
+2. Framework preset is detected as Next.js. Leave the build command and output directory alone.
+3. Add the environment variables below under Settings → Environment Variables (Production).
+4. Deploy, then point your domain at it under Settings → Domains.
+
+### Production environment variables
+
+| Variable | Value |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | `https://yourdomain.com` — no trailing slash |
+| `NEXT_PUBLIC_SUPABASE_URL` | From Supabase → Project Settings → API |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | The publishable key |
+| `SUPABASE_SECRET_KEY` | The secret key. Production scope only. |
+| `STRIPE_SECRET_KEY` | Live mode key once you have tested in test mode |
+| `STRIPE_WEBHOOK_SECRET` | From the live-mode webhook endpoint |
+| `STRIPE_PRICE_*` | The four live-mode price IDs |
+| `NEXT_PUBLIC_GA_ID` | Optional |
+| `NEXT_PUBLIC_GSC_VERIFICATION` | Optional |
+| `ANTHROPIC_API_KEY` | Optional — the AI tools stay disabled without it |
+
+### After the first deploy
+
+These are easy to forget and each one breaks something quietly:
+
+- **Supabase → Authentication → URL Configuration**: set Site URL to your domain and add
+  `https://yourdomain.com/auth/callback` to the redirect list, or sign-in links will point at
+  localhost.
+- **Stripe → Webhooks**: add `https://yourdomain.com/api/stripe/webhook` in *live* mode and copy
+  its signing secret. A test-mode secret will reject live events.
+- **Supabase → Authentication → Emails → SMTP**: the built-in mail service is capped at a few
+  messages per hour and is not usable for real signups. Point it at Resend, Postmark or similar.
+- **Search Console**: submit `https://yourdomain.com/sitemap.xml`.
+- Check `https://yourdomain.com/robots.txt` resolves and that `NEXT_PUBLIC_SITE_URL` made it into
+  the canonical tags — a wrong value here silently ruins the SEO work.
+
+### Test mode first
+
+Run the whole checkout flow in Stripe test mode against the production deployment before
+switching the keys to live. Card `4242 4242 4242 4242`, any future expiry, any CVC. Verify that
+`profiles.plan` flips to `pro` in Supabase and that cancelling in the billing portal flips it
+back to `free`.
+
 ## Scripts
 
 ```bash
