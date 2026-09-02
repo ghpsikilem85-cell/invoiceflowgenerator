@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { isGoogleAuthEnabled } from "@/lib/supabase/config";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -43,19 +44,23 @@ export default function LoginForm() {
 
   return (
     <div className="mt-6 space-y-4">
-      <button
-        type="button"
-        onClick={signInWithGoogle}
-        className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-      >
-        Continue with Google
-      </button>
+      {isGoogleAuthEnabled ? (
+        <>
+          <button
+            type="button"
+            onClick={signInWithGoogle}
+            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+          >
+            Continue with Google
+          </button>
 
-      <div className="flex items-center gap-3 text-xs text-slate-400">
-        <span className="h-px flex-1 bg-slate-200" />
-        or
-        <span className="h-px flex-1 bg-slate-200" />
-      </div>
+          <div className="flex items-center gap-3 text-xs text-slate-400">
+            <span className="h-px flex-1 bg-slate-200" />
+            or
+            <span className="h-px flex-1 bg-slate-200" />
+          </div>
+        </>
+      ) : null}
 
       <form onSubmit={sendMagicLink} className="space-y-3">
         <label className="block">
