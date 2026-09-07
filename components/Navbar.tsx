@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { isStripeConfigured } from "@/lib/stripe/client";
 
 const LINKS = [
   { href: "/invoice-generator", label: "Invoice generator" },
@@ -6,10 +7,12 @@ const LINKS = [
   { href: "/receipt-generator", label: "Receipt" },
   { href: "/estimate-generator", label: "Estimate" },
   { href: "/blog", label: "Blog" },
-  { href: "/pricing", label: "Pricing" },
 ];
 
 export default function Navbar() {
+  // Pricing only exists while there is something to buy.
+  const links = isStripeConfigured ? [...LINKS, { href: "/pricing", label: "Pricing" }] : LINKS;
+
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-3">
@@ -21,7 +24,7 @@ export default function Navbar() {
         </Link>
 
         <ul className="hidden flex-1 items-center gap-5 text-sm text-slate-600 md:flex">
-          {LINKS.map((link) => (
+          {links.map((link) => (
             <li key={link.href}>
               <Link href={link.href} className="hover:text-slate-900">
                 {link.label}

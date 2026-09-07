@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TEMPLATES } from "@/lib/templates";
+import { isStripeConfigured } from "@/lib/stripe/client";
 
 const TOOLS = [
   { href: "/invoice-generator", label: "Free invoice generator" },
@@ -53,9 +54,11 @@ export default function Footer() {
             <Link href="/blog" className="hover:text-slate-800">
               Blog
             </Link>
-            <Link href="/pricing" className="hover:text-slate-800">
-              Pricing
-            </Link>
+            {isStripeConfigured ? (
+              <Link href="/pricing" className="hover:text-slate-800">
+                Pricing
+              </Link>
+            ) : null}
             <Link href="/privacy" className="hover:text-slate-800">
               Privacy
             </Link>

@@ -4,8 +4,10 @@ import { redirect } from "next/navigation";
 import SignOutButton from "@/components/SignOutButton";
 import PlanBadge from "@/components/PlanBadge";
 import { formatDate, formatMoney } from "@/lib/currency";
+import { isAiConfigured } from "@/lib/ai/client";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
+import { isStripeConfigured } from "@/lib/stripe/client";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -81,14 +83,16 @@ export default async function Page() {
           <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
           <p className="text-sm text-slate-500">{user.email}</p>
         </div>
-        <PlanBadge plan={(profile?.plan as string) ?? "free"} />
+        <PlanBadge plan={(profile?.plan as string) ?? "free"} billingEnabled={isStripeConfigured} />
         <div className="flex items-center gap-3">
-          <Link
-            href="/dashboard/ai"
-            className="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-          >
-            AI tools
-          </Link>
+          {isAiConfigured ? (
+            <Link
+              href="/dashboard/ai"
+              className="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              AI tools
+            </Link>
+          ) : null}
           <Link
             href="/invoice-generator"
             className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"

@@ -7,7 +7,14 @@ import Link from "next/link";
  * Shows the current plan and, for subscribers, a way into Stripe's billing
  * portal. Free users get a link to the pricing page instead.
  */
-export default function PlanBadge({ plan }: { plan: string }) {
+export default function PlanBadge({
+  plan,
+  billingEnabled,
+}: {
+  plan: string;
+  /** Without billing there is nothing to upgrade to, so the link is hidden. */
+  billingEnabled: boolean;
+}) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,7 +44,7 @@ export default function PlanBadge({ plan }: { plan: string }) {
         {label}
       </span>
 
-      {plan === "free" ? (
+      {!billingEnabled ? null : plan === "free" ? (
         <Link href="/pricing" className="text-sm font-semibold text-blue-600 hover:text-blue-700">
           Upgrade
         </Link>

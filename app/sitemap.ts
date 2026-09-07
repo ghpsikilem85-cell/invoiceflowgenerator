@@ -5,6 +5,7 @@ import { PROFESSION_PAGES } from "@/lib/content/professions";
 import { TOOL_PAGES } from "@/lib/content/tools";
 import { TEMPLATES } from "@/lib/templates";
 import { absoluteUrl } from "@/lib/site";
+import { isStripeConfigured } from "@/lib/stripe/client";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -29,7 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...COUNTRY_PAGES.map((page) => entry(page.path, 0.7)),
     entry("/blog", 0.6, "weekly"),
     ...BLOG_POSTS.map((post) => entry(`/blog/${post.slug}`, 0.6)),
-    entry("/pricing", 0.5),
+    ...(isStripeConfigured ? [entry("/pricing", 0.5)] : []),
     entry("/privacy", 0.2, "yearly"),
     entry("/terms", 0.2, "yearly"),
   ];

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import PricingPlans from "@/components/PricingPlans";
 import { isPlanPurchasable, type Plan } from "@/lib/stripe/plans";
 import { isStripeConfigured } from "@/lib/stripe/client";
@@ -48,6 +49,10 @@ const FAQ = [
 ];
 
 export default async function Page() {
+  // Nothing is on sale yet, so the page does not exist rather than advertising
+  // plans nobody can buy.
+  if (!isStripeConfigured) notFound();
+
   const supabase = await createClient();
 
   let signedIn = false;

@@ -36,8 +36,13 @@ When `ANTHROPIC_API_KEY` is absent, `/dashboard/ai` renders an explanatory notic
 the editor shows "Sign in to save" instead of a Save button, and `/api/invoices` returns 501.
 Every other route behaves normally.
 
-When Stripe is unset, `/pricing` renders the plans with a disabled "Coming soon" button and
-every `/api/stripe/*` route returns 501.
+When Stripe is unset the paid side of the product disappears rather than advertising itself:
+`/pricing` returns 404, the Pricing links leave the navbar and footer, the sitemap drops the
+page, the dashboard hides its Upgrade link, and every `/api/stripe/*` route returns 501. Setting
+the Stripe variables brings all of it back with no code change.
+
+Likewise, without `ANTHROPIC_API_KEY` the dashboard hides its AI tools button and
+`/dashboard/ai` redirects back to the dashboard.
 
 ## Stripe setup
 
