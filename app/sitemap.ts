@@ -31,6 +31,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("/blog", 0.6, "weekly"),
     ...BLOG_POSTS.map((post) => entry(`/blog/${post.slug}`, 0.6)),
     ...(isStripeConfigured ? [entry("/pricing", 0.5)] : []),
+    entry("/about", 0.4),
+    entry("/contact", 0.4),
     entry("/privacy", 0.2, "yearly"),
     entry("/terms", 0.2, "yearly"),
   ];

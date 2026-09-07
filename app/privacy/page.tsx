@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { CONTACT_EMAIL } from "@/lib/contact";
+import { isAdsEnabled } from "@/lib/ads";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -23,10 +26,22 @@ export default function Page() {
           <p>You can delete your account and its data at any time by contacting us.</p>
           <h2>Analytics</h2>
           <p>If Google Analytics is enabled on this deployment, it records aggregate page views. It does not receive the contents of your invoices.</p>
+          <h2>Advertising</h2>
+          {isAdsEnabled ? (
+            <>
+              <p>This site is paid for by advertising. Ads are served by Google AdSense, which is a third party with its own privacy policy. Google and its partners may set cookies or read device identifiers in order to serve and measure ads, and in some configurations to personalise them based on your previous visits to this and other sites.</p>
+              <p>We do not send Google the contents of your invoices. The editor never transmits your draft anywhere except when you press Download PDF or Save invoice, and ad units are not placed inside the editor.</p>
+              <p>You can control what Google shows you at <a href="https://adssettings.google.com" rel="nofollow noopener" target="_blank">adssettings.google.com</a>, and read how Google uses data from sites that use its services at <a href="https://policies.google.com/technologies/partner-sites" rel="nofollow noopener" target="_blank">policies.google.com/technologies/partner-sites</a>.</p>
+              <p>If you are in the European Economic Area, the United Kingdom or Switzerland, you will be asked for consent before personalised advertising cookies are set, and you can change or withdraw that choice at any time.</p>
+            </>
+          ) : (
+            <p>No advertising is served on this site at present. If that changes, this policy will be updated before any advertising cookie is set.</p>
+          )}
           <h2>Cookies</h2>
-          <p>The only cookies set are the session cookies required to keep you signed in. There are no advertising or cross-site tracking cookies.</p>
+          <p>Session cookies keep you signed in; without them an account would be unusable. Where Google Analytics is enabled it sets its own analytics cookies.{isAdsEnabled ? " Advertising cookies are described in the section above." : ""}</p>
+          <p>Blocking cookies in your browser does not stop you using the invoice generator. It runs without an account and stores your draft in local storage on your own device.</p>
           <h2>Contact</h2>
-          <p>For any privacy question, or to request deletion of your data, contact us through the address published on the site.</p>
+          <p>For any privacy question, or to request deletion of your account and its data, write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Please write from the address you signed up with so we can be sure the request is yours. See also the <Link href="/contact">contact page</Link>.</p>
       </div>
     </div>
   );

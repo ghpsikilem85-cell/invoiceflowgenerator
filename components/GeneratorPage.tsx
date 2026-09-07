@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AdSlot from "@/components/AdSlot";
 import InvoiceEditor from "@/components/InvoiceEditor";
 import { JsonLd, breadcrumbJsonLd, faqJsonLd, softwareJsonLd, type FaqItem } from "@/lib/seo";
 import type { DocumentKind } from "@/types/invoice";
@@ -98,6 +99,8 @@ export default function GeneratorPage({
               ) : null}
             </div>
           ))}
+
+          <AdSlot placement="content" />
 
           <h2>Frequently asked questions</h2>
           <dl className="not-prose divide-y divide-slate-200 border-y border-slate-200">

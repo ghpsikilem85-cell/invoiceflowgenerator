@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import AdSlot from "@/components/AdSlot";
 import { BLOG_POSTS, getBlogPost } from "@/lib/content/blog";
 import { JsonLd, breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { SITE, absoluteUrl } from "@/lib/site";
@@ -93,6 +94,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             </section>
           ))}
         </div>
+
+        <AdSlot placement="article" />
 
         <div className="mt-10 rounded-xl border border-slate-200 bg-white p-6 text-center">
           <p className="font-semibold text-slate-900">Ready to bill for it?</p>

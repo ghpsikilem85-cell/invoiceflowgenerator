@@ -30,6 +30,10 @@ download PDFs; the generator, all landing pages and the blog work with no backen
 | `STRIPE_WEBHOOK_SECRET` | Verifying webhook payloads |
 | `STRIPE_PRICE_{PRO,BUSINESS}_{MONTH,YEAR}` | The four Stripe price IDs |
 | `SUPABASE_SECRET_KEY` | Server only — the webhook writes with it. Never expose it. |
+| `NEXT_PUBLIC_ADSENSE_CLIENT` | Google AdSense — `ca-pub-…`. Ads stay off until this is set. |
+| `NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE` | Ad unit inside blog articles |
+| `NEXT_PUBLIC_ADSENSE_SLOT_CONTENT` | Ad unit below the copy on tool pages |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Address shown on /contact, /about and the privacy policy |
 
 When `ANTHROPIC_API_KEY` is absent, `/dashboard/ai` renders an explanatory notice and
 `/api/ai` returns 501. When the Supabase variables are absent, `/login` and `/dashboard` render an explanatory notice,
@@ -146,6 +150,41 @@ Three decisions worth knowing about:
 
 Usage is logged per request to the `ai_requests` table (feature, input and output tokens), and the
 endpoint is rate limited to 20 requests per user per minute because every call costs money.
+
+## Advertising
+
+The site is funded by ads. Everything is gated on `NEXT_PUBLIC_ADSENSE_CLIENT`: with it unset
+there is no AdSense script, no ad slots, `/ads.txt` returns 404, and the privacy policy says no
+advertising is served. Setting it turns all four on together, so the policy can never claim
+something the site is not doing.
+
+Two placements, both deliberately away from the tool itself:
+
+| Placement | Where | Slot variable |
+| --- | --- | --- |
+| `content` | Below the long-form copy on tool and landing pages, above the FAQ | `NEXT_PUBLIC_ADSENSE_SLOT_CONTENT` |
+| `article` | At the end of a blog article, before the call to action | `NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE` |
+
+**No ads inside the editor.** The invoice form is where someone types a client's name, address and
+bank details; an ad unit beside that field would be a poor trade for a few cents of RPM, and it is
+the part of the page that has to feel trustworthy.
+
+`app/ads.txt/route.ts` derives the ads.txt line from the client ID, so there is nothing to keep in
+sync by hand.
+
+### Before applying to AdSense
+
+Google rejects sites that lack the basics. In place already: privacy policy, terms, an about page,
+a contact page, and ~40 pages of original written content. Still needed from you: a working
+address behind `NEXT_PUBLIC_CONTACT_EMAIL`, and enough traffic history that the site does not look
+abandoned.
+
+### EEA / UK consent
+
+Serving personalised ads to visitors in the EEA, the UK or Switzerland requires a Google-certified
+consent management platform. The simplest route is Google's own consent message, configured in the
+AdSense dashboard under Privacy & messaging — no code change here. The privacy policy already
+tells visitors they will be asked.
 
 ## Known limitation: PDF fonts
 
