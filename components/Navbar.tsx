@@ -34,7 +34,10 @@ export default function Navbar() {
         </ul>
 
         <div className="ml-auto flex items-center gap-3 md:ml-0">
-          <Link href="/dashboard" className="text-sm text-slate-600 hover:text-slate-900">
+          {/* Links straight to /login: /dashboard answers a signed-out visitor with a
+              redirect, and a redirect in the navbar is repeated on every page Google
+              crawls. /login itself sends signed-in users on to the dashboard. */}
+          <Link href="/login" className="text-sm text-slate-600 hover:text-slate-900">
             Sign in
           </Link>
           <Link
