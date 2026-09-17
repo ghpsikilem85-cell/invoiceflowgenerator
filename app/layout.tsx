@@ -36,20 +36,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
+      <head>
+        {isAdsEnabled ? (
+          // A plain <script> rather than next/script: next/script injects the tag
+          // from the client after hydration, so it never appears in the server
+          // HTML and AdSense's site verification reports the code as missing.
+          <script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+            crossOrigin="anonymous"
+          />
+        ) : null}
+      </head>
       <body className="flex min-h-screen flex-col">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
-
-        {isAdsEnabled ? (
-          <Script
-            id="adsense"
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
-        ) : null}
 
         {gaId ? (
           <>
