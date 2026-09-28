@@ -37,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
+        <meta name="google-adsense-account" content="ca-pub-2049145865117146" />
         {isAdsEnabled ? (
           // A plain <script> rather than next/script: next/script injects the tag
           // from the client after hydration, so it never appears in the server
